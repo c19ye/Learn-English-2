@@ -4,15 +4,16 @@ import BackgroundStyle from '../styles/BackgroundStyle';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 SplashScreen.preventAutoHideAsync();
 
 export default function HomePage() {
+  const navigation = useNavigation();
   const [fontsLoaded] = useFonts({
     'Kristen-Normal-ITC-Std-Regular': require('../assets/fonts/Kristen-Normal-ITC-Std-Regular.ttf'),
   });
-
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
@@ -29,7 +30,11 @@ export default function HomePage() {
     style = {BackgroundStyle.container}
     >
       <Image source={require('../assets/headerImage.png')}
-      style={{width: '100%', height: '30%', alignSelf: 'center', borderRadius: 10,}}
+      style={{
+        width: '100%',
+        height: '30%',
+        alignSelf: 'center',
+        borderRadius: 10,}}
       />
       <View style={{ width : "100%" , height:"45%"}}>
 
@@ -84,6 +89,7 @@ export default function HomePage() {
       alignItems: "center", // Elemanları dikeyde ortala
       borderWidth: 1, // Kenarlık kalınlığı
     }}
+    onPress={() => {navigation.navigate('MyDictionary')}}
   >
     <Text style={{fontFamily:'Kristen-Normal-ITC-Std-Regular', color: "black", fontSize: 20, textAlign: "center",flex:1 ,marginLeft:"15%"}}>
       My Dictionary

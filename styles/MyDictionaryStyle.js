@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  addButton: {
+  addButtonView: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",

@@ -3,13 +3,11 @@ import {
   View,
   Text,
   ImageBackground,
-  StyleSheet,
   Image,
   TouchableOpacity,
 } from "react-native";
 import React from "react";
 import BackgroundStyle from "../styles/BackgroundStyle";
-import style from "../styles/AndroidSafeViewer";
 import { useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -59,7 +57,7 @@ export default function MyDictionaryPage() {
       style={BackgroundStyle.container}
       onLayout={onLayoutRootView}
     >
-      <View style={MyDictionaryStyle.addButton}>
+      <View style={MyDictionaryStyle.addButtonView}>
         <Text style={MyDictionaryStyle.wordCount}>
           Word Count: {dummyData.length}
         </Text>

@@ -13,6 +13,8 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { LinearGradient } from "expo-linear-gradient";
 import MyDictionaryStyle from "../styles/MyDictionaryStyle";
+import { useNavigation } from "@react-navigation/native";
+
 
 const dummyData = [
   { id: "1", title: "Apple" },
@@ -38,6 +40,8 @@ const dummyData = [
 ];
 
 export default function MyDictionaryPage() {
+  const navigation = useNavigation();
+
   const [fontsLoaded] = useFonts({
     "Kristen-Normal-ITC-Std-Regular": require("../assets/fonts/Kristen-Normal-ITC-Std-Regular.ttf"),
   });
@@ -106,7 +110,9 @@ export default function MyDictionaryPage() {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => console.log("btn pressed")}>
+        <TouchableOpacity onPress={() => {
+            navigation.navigate("Learn");
+          }}>
           <View style={MyDictionaryStyle.buttonParent}>
             <LinearGradient
               colors={["#FDAF8B", "#E5A9B5"]}

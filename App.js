@@ -41,7 +41,7 @@ export default function App() {
                 
               },
               headerStyle: {
-                backgroundColor: 'red',
+                // backgroundColor: 'red',
                
                 
               },

@@ -28,7 +28,7 @@ export default function App() {
   return (
     <SafeAreaView style={AndroidSafeViewer.AndroidSafeArea}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Learn">
+        <Stack.Navigator initialRouteName="MyDictionary">
           <Stack.Screen
             name="Home"
             component={HomePage}

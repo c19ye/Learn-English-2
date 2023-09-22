@@ -15,7 +15,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import MyDictionaryStyle from "../styles/MyDictionaryStyle";
 import { useNavigation } from "@react-navigation/native";
 
-
 const dummyData = [
   { id: "1", title: "Apple" },
   { id: "2", title: "Banana" },
@@ -63,7 +62,7 @@ export default function MyDictionaryPage() {
     >
       <View style={MyDictionaryStyle.addButtonView}>
         <Text style={MyDictionaryStyle.wordCount}>
-          Word Count: {dummyData.length}
+          Total Words: {dummyData.length}
         </Text>
         <TouchableOpacity style={MyDictionaryStyle.addButton}>
           <Image
@@ -110,9 +109,11 @@ export default function MyDictionaryPage() {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => {
+        <TouchableOpacity
+          onPress={() => {
             navigation.navigate("Learn");
-          }}>
+          }}
+        >
           <View style={MyDictionaryStyle.buttonParent}>
             <LinearGradient
               colors={["#FDAF8B", "#E5A9B5"]}

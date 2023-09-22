@@ -62,11 +62,16 @@ export default function HomePage() {
         />
       </View>
       <View style={HomeStyle.buttonsView} onLayout={onLayoutRootView}>
-        <TouchableOpacity style={HomeStyle.buttons}>
+        <TouchableOpacity
+          style={HomeStyle.buttons}
+          onPress={() => {
+            navigation.navigate("PopulerWords");
+          }}
+        >
           <Text style={HomeStyle.buttonText}>Popular Words</Text>
           <Image
             source={require("../assets/buttonlogo.png")}
-            style={HomeStyle.buttonImage} 
+            style={HomeStyle.buttonImage}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -78,7 +83,7 @@ export default function HomePage() {
           <Text style={HomeStyle.buttonText}>My Dictionary</Text>
           <Image
             source={require("../assets/buttonlogo.png")}
-            style={HomeStyle.buttonImage} 
+            style={HomeStyle.buttonImage}
           />
         </TouchableOpacity>
       </View>

@@ -9,6 +9,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
 import LearnPage from "./pages/LearnPage";
+import PopulerWordsPage from "./pages/PopulerWordsPage";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -28,7 +29,7 @@ export default function App() {
   return (
     <SafeAreaView style={AndroidSafeViewer.AndroidSafeArea}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="MyDictionary">
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
             name="Home"
             component={HomePage}
@@ -54,6 +55,20 @@ export default function App() {
             component={LearnPage}
             options={{
               headerTitle: "Learn",
+              headerTitleStyle: {
+                fontFamily: "Kristen-Normal-ITC-Std-Regular",
+              },
+              headerStyle: {
+                // backgroundColor: 'red',
+              },
+            }}
+          />
+          <Stack.Screen
+            name="PopulerWords"
+            onLayout={onLayoutRootView}
+            component={PopulerWordsPage}
+            options={{
+              headerTitle: "Populer Words",
               headerTitleStyle: {
                 fontFamily: "Kristen-Normal-ITC-Std-Regular",
               },

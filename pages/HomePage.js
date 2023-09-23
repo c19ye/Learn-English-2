@@ -16,7 +16,6 @@ import { useNavigation } from "@react-navigation/native";
 import HomeStyle from "../styles/HomeStyle";
 import AndroidSafeViewer from "../styles/AndroidSafeViewer";
 
-
 export default function HomePage() {
   const navigation = useNavigation();
 
@@ -37,7 +36,6 @@ export default function HomePage() {
   }
 
   return (
-    <SafeAreaView style={AndroidSafeViewer.AndroidSafeArea}>
     <ImageBackground
       source={require("../assets/backgroundImage.png")}
       resizeMode="cover"
@@ -92,6 +90,5 @@ export default function HomePage() {
         </TouchableOpacity>
       </View>
     </ImageBackground>
-    </SafeAreaView>
   );
 }

@@ -9,6 +9,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flex: 1,
   },
+  levelWordUpText: {
+    fontFamily: "Kristen-Normal-ITC-Std-Regular",
+    fontSize: 18,
+    color: "#73007D",
+    textShadowColor: "#F780F2", // Stroke rengi
+    textShadowOffset: { width: -1, height: -1 }, // Stroke kalınlığı
+    textShadowRadius: 7, // Gölge yarıçapı
+  },
   words: {
     width: "100%",
     flex: 7,

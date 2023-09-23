@@ -5,7 +5,6 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
-  SafeAreaView,
 } from "react-native";
 import React from "react";
 import BackgroundStyle from "../styles/BackgroundStyle";
@@ -15,8 +14,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { LinearGradient } from "expo-linear-gradient";
 import MyDictionaryStyle from "../styles/MyDictionaryStyle";
 import { useNavigation } from "@react-navigation/native";
-import AndroidSafeViewer from "../styles/AndroidSafeViewer";
-
+import { useState } from "react";
+import Checkbox from "expo-checkbox";
+import levelWordStyle from "../styles/LevelWordStyle";
 const dummyData = [
   { id: "1", title: "Apple" },
   { id: "2", title: "Banana" },
@@ -40,8 +40,10 @@ const dummyData = [
   { id: "20", title: "Coconut" },
 ];
 
-export default function MyDictionaryPage() {
+export default function LevelWordPage() {
   const navigation = useNavigation();
+
+  const [isChecked, setChecked] = useState(false);
 
   const [fontsLoaded] = useFonts({
     "Kristen-Normal-ITC-Std-Regular": require("../assets/fonts/Kristen-Normal-ITC-Std-Regular.ttf"),
@@ -62,63 +64,47 @@ export default function MyDictionaryPage() {
       style={BackgroundStyle.container}
       onLayout={onLayoutRootView}
     >
-      <View style={MyDictionaryStyle.addButtonView}>
-        <Text style={MyDictionaryStyle.wordCount}>
-          Total Words: {dummyData.length}
-        </Text>
-        <TouchableOpacity style={MyDictionaryStyle.addButton}>
-          <Image
-            source={require("../assets/addIcon.png")}
-            resizeMode="contain"
-            style={MyDictionaryStyle.addButtonIcon}
-          ></Image>
-        </TouchableOpacity>
+      <View style={levelWordStyle.addButtonView}>
+        <ImageBackground
+          source={require("../assets/levelWordUp.png")}
+          resizeMode="contain"
+          style={levelWordStyle.addButtonIcon}
+        >
+          <Text style={levelWordStyle.levelWordUpText}>A1 Level Word</Text>
+        </ImageBackground>
       </View>
-      <View style={MyDictionaryStyle.words}>
+      <View style={levelWordStyle.words}>
         <FlatList
           data={dummyData}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={MyDictionaryStyle.listView}>
-              <Text style={MyDictionaryStyle.listText}>{item.title}</Text>
-              <TouchableOpacity style={MyDictionaryStyle.editnDeleteButton}>
-                <Image
-                  source={require("../assets/editIcon.png")}
-                  resizeMode="cover"
-                  style={MyDictionaryStyle.editnDeleteButtonIcon}
-                ></Image>
-              </TouchableOpacity>
-              <TouchableOpacity style={MyDictionaryStyle.editnDeleteButton}>
-                <Image
-                  source={require("../assets/deleteIcon.png")}
-                  resizeMode="cover"
-                  style={MyDictionaryStyle.editnDeleteButtonIcon}
-                ></Image>
-              </TouchableOpacity>
+            <View style={levelWordStyle.listView}>
+              <Text style={levelWordStyle.listText}>{item.title}</Text>
+              <View style={levelWordStyle.editnDeleteButton}>
+                <Checkbox
+                  value={isChecked}
+                  onValueChange={setChecked}
+                  color={isChecked ? "black" : undefined}
+                />
+              </View>
             </View>
           )}
         />
       </View>
-      <View style={MyDictionaryStyle.buttons}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Learn");
-          }}
-        >
+      <View style={levelWordStyle.buttons}>
+        <TouchableOpacity onPress={() => console.log("btn pressed")}>
           <Image
-            source={require("../assets/myDictionaryRepeatButton.png")}
-            resizeMode="cover"
+            source={require("../assets/levelWordAdd.png")}
+            resizeMode="contain"
           ></Image>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => {
+        <TouchableOpacity  onPress={() => {
             navigation.navigate("Learn");
-          }}
-        >
+          }}>
           <Image
-            source={require("../assets/myDictionaryLearnButton.png")}
-            resizeMode="cover"
+            source={require("../assets/levelWordLearn.png")}
+            resizeMode="contain"
           ></Image>
         </TouchableOpacity>
       </View>

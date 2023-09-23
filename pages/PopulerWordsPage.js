@@ -8,9 +8,11 @@ import {
 import React from "react";
 import BackgroundStyle from "../styles/BackgroundStyle";
 import PopulerWordsStyle from "../styles/PopulerWordsStyle";
-import { TouchableHighlight } from "react-native-web";
+import { useNavigation } from "@react-navigation/native";
 
 export default function PopulerWordsPage() {
+  const navigation = useNavigation();
+
   return (
     <ImageBackground
       source={require("../assets/backgroundImage.png")}
@@ -24,7 +26,11 @@ export default function PopulerWordsPage() {
         ></Image>
       </View>
       <View style={PopulerWordsStyle.starOneView}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("LevelWord");
+          }}
+        >
           <Image
             source={require("../assets/A1.png")}
             resizeMode="contain"
@@ -32,7 +38,11 @@ export default function PopulerWordsPage() {
         </TouchableOpacity>
       </View>
       <View style={PopulerWordsStyle.starTwoView}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("LevelWord");
+          }}
+        >
           <Image
             source={require("../assets/A2.png")}
             resizeMode="contain"
@@ -40,7 +50,11 @@ export default function PopulerWordsPage() {
         </TouchableOpacity>
       </View>
       <View style={PopulerWordsStyle.starThreeView}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("LevelWord");
+          }}
+        >
           <Image
             source={require("../assets/B1.png")}
             resizeMode="contain"
@@ -48,7 +62,11 @@ export default function PopulerWordsPage() {
         </TouchableOpacity>
       </View>
       <View style={PopulerWordsStyle.starFourView}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("LevelWord");
+          }}
+        >
           <Image
             source={require("../assets/B2.png")}
             resizeMode="contain"
@@ -56,7 +74,11 @@ export default function PopulerWordsPage() {
         </TouchableOpacity>
       </View>
       <View style={PopulerWordsStyle.starFiveView}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("LevelWord");
+          }}
+        >
           <Image
             source={require("../assets/C1.png")}
             resizeMode="contain"
@@ -64,7 +86,11 @@ export default function PopulerWordsPage() {
         </TouchableOpacity>
       </View>
       <View style={PopulerWordsStyle.starSixView}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("LevelWord");
+          }}
+        >
           <Image
             source={require("../assets/C2.png")}
             resizeMode="contain"

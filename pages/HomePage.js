@@ -5,6 +5,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Text,
+  SafeAreaView,
 } from "react-native";
 import React from "react";
 import BackgroundStyle from "../styles/BackgroundStyle";
@@ -13,6 +14,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
 import HomeStyle from "../styles/HomeStyle";
+import AndroidSafeViewer from "../styles/AndroidSafeViewer";
+
 
 export default function HomePage() {
   const navigation = useNavigation();
@@ -34,6 +37,7 @@ export default function HomePage() {
   }
 
   return (
+    <SafeAreaView style={AndroidSafeViewer.AndroidSafeArea}>
     <ImageBackground
       source={require("../assets/backgroundImage.png")}
       resizeMode="cover"
@@ -88,5 +92,6 @@ export default function HomePage() {
         </TouchableOpacity>
       </View>
     </ImageBackground>
+    </SafeAreaView>
   );
 }

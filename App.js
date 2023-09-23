@@ -10,6 +10,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
 import LearnPage from "./pages/LearnPage";
 import PopulerWordsPage from "./pages/PopulerWordsPage";
+import LevelWordPage from "./pages/LevelWordPage";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -27,7 +28,6 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={AndroidSafeViewer.AndroidSafeArea}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
@@ -46,6 +46,8 @@ export default function App() {
               },
               headerStyle: {
                 // backgroundColor: 'red',
+                paddingTop: 0, // StatusBar ile uyumlu bir şekilde ayarlanmışsa bu satırı ekleyin veya çıkarın
+                height: 1,
               },
             }}
           />
@@ -77,8 +79,21 @@ export default function App() {
               },
             }}
           />
+          <Stack.Screen
+            name="LevelWord"
+            onLayout={onLayoutRootView}
+            component={LevelWordPage}
+            options={{
+              headerTitle: "Level Words",
+              headerTitleStyle: {
+                fontFamily: "Kristen-Normal-ITC-Std-Regular",
+              },
+              headerStyle: {
+                // backgroundColor: 'red',
+              },
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
-    </SafeAreaView>
   );
 }

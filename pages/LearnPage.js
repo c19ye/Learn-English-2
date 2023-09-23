@@ -18,6 +18,10 @@ export default function LearnPage() {
     setShowAnswerButtonVisible(false);
     setIKnowButtonVisible(true);
   };
+  const toggleButtonsReverse = () => {
+    setShowAnswerButtonVisible(true);
+    setIKnowButtonVisible(false);
+  };
 
   return (
     <ImageBackground
@@ -101,7 +105,7 @@ export default function LearnPage() {
         <View style={LearnStyle.buttonsView2}>
           <TouchableOpacity
             style={LearnStyle.showAnswerButton}
-            onPress={toggleButtons}
+            onPress={toggleButtonsReverse}
           >
             <ImageBackground
               source={require("../assets/iKnowButton.png")}
@@ -111,7 +115,7 @@ export default function LearnPage() {
           </TouchableOpacity>
           <TouchableOpacity
             style={LearnStyle.showAnswerButton}
-            onPress={toggleButtons}
+            onPress={toggleButtonsReverse}
           >
             <ImageBackground
               source={require("../assets/iDontKnowButton.png")}

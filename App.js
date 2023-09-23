@@ -11,6 +11,7 @@ import { useCallback } from "react";
 import LearnPage from "./pages/LearnPage";
 import PopulerWordsPage from "./pages/PopulerWordsPage";
 import LevelWordPage from "./pages/LevelWordPage";
+import { StatusBar } from "react-native";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -26,74 +27,76 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+  StatusBar.setBarStyle("light-content");
+  StatusBar.setBackgroundColor("gray");
 
   return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
-            name="Home"
-            component={HomePage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="MyDictionary"
-            onLayout={onLayoutRootView}
-            component={MyDictionaryPage}
-            options={{
-              headerTitle: "My Dictionary",
-              headerTitleStyle: {
-                fontFamily: "Kristen-Normal-ITC-Std-Regular",
-              },
-              headerStyle: {
-                // backgroundColor: 'red',
-                paddingTop: 0, // StatusBar ile uyumlu bir şekilde ayarlanmışsa bu satırı ekleyin veya çıkarın
-                height: 1,
-              },
-            }}
-          />
-          <Stack.Screen
-            name="Learn"
-            onLayout={onLayoutRootView}
-            component={LearnPage}
-            options={{
-              headerTitle: "Learn",
-              headerTitleStyle: {
-                fontFamily: "Kristen-Normal-ITC-Std-Regular",
-              },
-              headerStyle: {
-                // backgroundColor: 'red',
-              },
-            }}
-          />
-          <Stack.Screen
-            name="PopulerWords"
-            onLayout={onLayoutRootView}
-            component={PopulerWordsPage}
-            options={{
-              headerTitle: "Populer Words",
-              headerTitleStyle: {
-                fontFamily: "Kristen-Normal-ITC-Std-Regular",
-              },
-              headerStyle: {
-                // backgroundColor: 'red',
-              },
-            }}
-          />
-          <Stack.Screen
-            name="LevelWord"
-            onLayout={onLayoutRootView}
-            component={LevelWordPage}
-            options={{
-              headerTitle: "Level Words",
-              headerTitleStyle: {
-                fontFamily: "Kristen-Normal-ITC-Std-Regular",
-              },
-              headerStyle: {
-                // backgroundColor: 'red',
-              },
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen
+          name="Home"
+          component={HomePage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MyDictionary"
+          onLayout={onLayoutRootView}
+          component={MyDictionaryPage}
+          options={{
+            headerTitle: "My Dictionary",
+            headerTitleStyle: {
+              fontFamily: "Kristen-Normal-ITC-Std-Regular",
+            },
+            headerStyle: {
+              // backgroundColor: 'red',
+              paddingTop: 0, // StatusBar ile uyumlu bir şekilde ayarlanmışsa bu satırı ekleyin veya çıkarın
+              height: 1,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Learn"
+          onLayout={onLayoutRootView}
+          component={LearnPage}
+          options={{
+            headerTitle: "Learn",
+            headerTitleStyle: {
+              fontFamily: "Kristen-Normal-ITC-Std-Regular",
+            },
+            headerStyle: {
+              // backgroundColor: 'red',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="PopulerWords"
+          onLayout={onLayoutRootView}
+          component={PopulerWordsPage}
+          options={{
+            headerTitle: "Populer Words",
+            headerTitleStyle: {
+              fontFamily: "Kristen-Normal-ITC-Std-Regular",
+            },
+            headerStyle: {
+              // backgroundColor: 'red',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="LevelWord"
+          onLayout={onLayoutRootView}
+          component={LevelWordPage}
+          options={{
+            headerTitle: "Level Words",
+            headerTitleStyle: {
+              fontFamily: "Kristen-Normal-ITC-Std-Regular",
+            },
+            headerStyle: {
+              // backgroundColor: 'red',
+            },
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

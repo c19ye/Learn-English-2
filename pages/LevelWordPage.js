@@ -10026,6 +10026,13 @@ export default function LevelWordPage() {
       });
   }, []);
 
+    AsyncStorage.getItem("kelimeListesi", (error, result) => {
+      if (result) {
+        setKelimeListesi(JSON.parse(result));
+      }
+    });
+    
+
   const navigation = useNavigation();
 
   const [isChecked, setChecked] = useState(false);
@@ -10058,7 +10065,7 @@ export default function LevelWordPage() {
           <Text style={levelWordStyle.levelWordUpText}>A1 Level Word</Text>
         </ImageBackground>
       </View>
-      <ScrollView style={levelWordStyle.words}>
+      <View style={levelWordStyle.words}>
         <FlatList
           data={kelimeListesi}
           keyExtractor={(item) => item.English}
@@ -10075,7 +10082,7 @@ export default function LevelWordPage() {
             </View>
           )}
         />
-      </ScrollView>
+      </View>
       <View style={levelWordStyle.buttons}>
         <TouchableOpacity onPress={() => console.log("btn pressed")}>
           <Image

@@ -22,19 +22,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import A1Data from "../assets/data/A1.json";
 import { useMemo } from "react";
 
-let tempCheckedItems = []; // Checkbox durumunu geçici olarak saklamak için kullanılan değişken
-
 export default function LevelWordPage() {
   const [kelimeListesi, setKelimeListesi] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
     const englishWords = A1Data.map((item) => ({ English: item.English }));
-    // console.log(englishWords);
-    tempCheckedItems = Array(englishWords.length).fill(false);
-
+    //console.log(englishWords);
+    setCheckedItems(Array(englishWords.length).fill(false));
     setKelimeListesi(englishWords);
-    console.log("tempCheckedItemsfill:", tempCheckedItems);
   }, []);
 
   const toggleCheckbox = (index) => {
@@ -44,24 +40,20 @@ export default function LevelWordPage() {
       return newState;
     });
   };
-  const handleAddToDictionary = () => {
-    // Burada seçilen öğeleri işleyebilirsiniz
-    setCheckedItems(tempCheckedItems);
-    console.log("checkedItems:", checkedItems);
-  };
+
   class WordItem extends React.PureComponent {
     render() {
       const { item, index, toggleCheckbox } = this.props;
       return (
         <TouchableOpacity
-          onPress={() => toggleCheckbox(index)} // Add this onPress handler
+          onPress={() => toggleCheckbox(index)}
           style={levelWordStyle.listView}
         >
           <Text style={levelWordStyle.listText}>{item.English}</Text>
           <View style={levelWordStyle.editnDeleteButton}>
             <Checkbox
               value={checkedItems[index]}
-              onValueChange={() => {toggleCheckbox(index)} }
+              onValueChange={() => toggleCheckbox(index)}
               color={checkedItems[index] ? "black" : undefined}
             />
           </View>
@@ -69,7 +61,7 @@ export default function LevelWordPage() {
       );
     }
   }
-  
+
   const memoizedFlatList = useMemo(
     () => (
       <FlatList
@@ -80,12 +72,10 @@ export default function LevelWordPage() {
         )}
       />
     ),
-    [kelimeListesi, checkedItems]
+    [kelimeListesi,checkedItems]
   );
 
   const navigation = useNavigation();
-
-  const [isChecked, setChecked] = useState(false);
 
   const [fontsLoaded] = useFonts({
     "Kristen-Normal-ITC-Std-Regular": require("../assets/fonts/Kristen-Normal-ITC-Std-Regular.ttf"),
@@ -117,7 +107,7 @@ export default function LevelWordPage() {
       </View>
       <View style={levelWordStyle.words}>{memoizedFlatList}</View>
       <View style={levelWordStyle.buttons}>
-        <TouchableOpacity onPress={handleAddToDictionary}>
+        <TouchableOpacity>
           <Image
             source={require("../assets/levelWordAdd.png")}
             resizeMode="contain"

@@ -41,38 +41,53 @@ export default function LevelWordPage() {
     });
   };
 
-  class WordItem extends React.PureComponent {
-    render() {
-      const { item, index, toggleCheckbox } = this.props;
-      return (
-        <TouchableOpacity
-          onPress={() => toggleCheckbox(index)}
-          style={levelWordStyle.listView}
-        >
-          <Text style={levelWordStyle.listText}>{item.English}</Text>
-          <View style={levelWordStyle.editnDeleteButton}>
-            <Checkbox
-              value={checkedItems[index]}
-              onValueChange={() => toggleCheckbox(index)}
-              color={checkedItems[index] ? "black" : undefined}
-            />
-          </View>
-        </TouchableOpacity>
-      );
-    }
-  }
-
+  // class WordItem extends React.PureComponent {
+  //   render() {
+  //     const { item, index, toggleCheckbox } = this.props;
+  //     return (
+  //       <TouchableOpacity
+  //         onPress={() => toggleCheckbox(index)}
+  //         style={levelWordStyle.listView}
+  //       >
+  //         <Text style={levelWordStyle.listText}>{item.English}</Text>
+  //         <View style={levelWordStyle.editnDeleteButton}>
+  //           <Checkbox
+  //             value={checkedItems[index]}
+  //             onValueChange={() => toggleCheckbox(index)}
+  //             color={checkedItems[index] ? "black" : undefined}
+  //           />
+  //         </View>
+  //       </TouchableOpacity>
+  //     );
+  //   }
+  // }
+  const renderItem = useCallback(
+    ({ item, index }) => (
+      <TouchableOpacity
+        onPress={() => toggleCheckbox(index)}
+        style={levelWordStyle.listView}
+      >
+        <Text style={levelWordStyle.listText}>{item.English}</Text>
+        <View style={levelWordStyle.editnDeleteButton}>
+          <Checkbox
+            value={checkedItems[index]}
+            onValueChange={() => toggleCheckbox(index)}
+            color={checkedItems[index] ? "black" : undefined}
+          />
+        </View>
+      </TouchableOpacity>
+    ),
+    [checkedItems]
+  );
   const memoizedFlatList = useMemo(
     () => (
       <FlatList
         data={kelimeListesi}
         keyExtractor={(item) => item.English}
-        renderItem={({ item, index }) => (
-          <WordItem item={item} index={index} toggleCheckbox={toggleCheckbox} />
-        )}
+        renderItem={renderItem}
       />
     ),
-    [kelimeListesi,checkedItems]
+    [kelimeListesi, checkedItems]
   );
 
   const navigation = useNavigation();

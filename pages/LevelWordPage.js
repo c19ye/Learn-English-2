@@ -64,10 +64,10 @@ export default function LevelWordPage() {
       <FlatList
         data={kelimeListesi}
         keyExtractor={(item) => item.English}
-        windowSize={10} // Adjust this value as needed
+        windowSize={5} // Adjust this value as needed
         removeClippedSubviews={true}
-        initialNumToRender={3} // Adjust this value based on your needs
-        maxToRenderPerBatch={3} // Adjust this value based on your needs
+        initialNumToRender={10} // Adjust this value based on your needs
+        maxToRenderPerBatch={10} // Adjust this value based on your needs
         renderItem={renderItem}
       />
     ),

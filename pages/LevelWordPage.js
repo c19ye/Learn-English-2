@@ -33,34 +33,14 @@ export default function LevelWordPage() {
     setKelimeListesi(englishWords);
   }, []);
 
-  const toggleCheckbox = (index) => {
+  const toggleCheckbox = useCallback((index) => {
     setCheckedItems((prev) => {
       const newState = [...prev];
       newState[index] = !newState[index];
       return newState;
     });
-  };
+  }, []);
 
-  // class WordItem extends React.PureComponent {
-  //   render() {
-  //     const { item, index, toggleCheckbox } = this.props;
-  //     return (
-  //       <TouchableOpacity
-  //         onPress={() => toggleCheckbox(index)}
-  //         style={levelWordStyle.listView}
-  //       >
-  //         <Text style={levelWordStyle.listText}>{item.English}</Text>
-  //         <View style={levelWordStyle.editnDeleteButton}>
-  //           <Checkbox
-  //             value={checkedItems[index]}
-  //             onValueChange={() => toggleCheckbox(index)}
-  //             color={checkedItems[index] ? "black" : undefined}
-  //           />
-  //         </View>
-  //       </TouchableOpacity>
-  //     );
-  //   }
-  // }
   const renderItem = useCallback(
     ({ item, index }) => (
       <TouchableOpacity
@@ -84,6 +64,10 @@ export default function LevelWordPage() {
       <FlatList
         data={kelimeListesi}
         keyExtractor={(item) => item.English}
+        windowSize={10} // Adjust this value as needed
+        removeClippedSubviews={true}
+        initialNumToRender={3} // Adjust this value based on your needs
+        maxToRenderPerBatch={3} // Adjust this value based on your needs
         renderItem={renderItem}
       />
     ),

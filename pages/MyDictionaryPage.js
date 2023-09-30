@@ -63,9 +63,9 @@ export default function MyDictionaryPage() {
       Alert.alert("Data Deleted", "Data has been deleted successfully.", [
         {
           text: "OK",
-          onPress:() => {
-            setCounter(counter + 1)
-          }
+          onPress: () => {
+            setCounter(counter + 1);
+          },
         },
       ]);
     } catch (error) {
@@ -113,7 +113,7 @@ export default function MyDictionaryPage() {
       readDataFromJsonFile();
       //deleteJSONFile(JSON_FILE_PATH);
     }
-  }, [isFocused,counter]);
+  }, [isFocused, counter]);
 
   return (
     <ImageBackground
@@ -128,7 +128,7 @@ export default function MyDictionaryPage() {
         <TouchableOpacity
           style={MyDictionaryStyle.addButton}
           onPress={() => {
-            navigation.navigate("AddWord");
+            navigation.navigate("AddWord", { param: "Add" });
           }}
         >
           <Image
@@ -146,7 +146,15 @@ export default function MyDictionaryPage() {
           renderItem={({ item }) => (
             <View style={MyDictionaryStyle.listView}>
               <Text style={MyDictionaryStyle.listText}>{item.front}</Text>
-              <TouchableOpacity style={MyDictionaryStyle.editnDeleteButton}>
+              <TouchableOpacity
+                style={MyDictionaryStyle.editnDeleteButton}
+                onPress={() => {
+                  navigation.navigate("AddWord", {
+                    param: "Edit",
+                    id: item.id,
+                  });
+                }}
+              >
                 <Image
                   source={require("../assets/editIcon.png")}
                   resizeMode="cover"

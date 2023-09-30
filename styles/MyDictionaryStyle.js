@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   editnDeleteButtonIcon: {
-    width: "60%",
+    width: "70%",
     height: "100%",
     flex: 1,
   },

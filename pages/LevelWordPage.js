@@ -18,28 +18,57 @@ import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import Checkbox from "expo-checkbox";
 import levelWordStyle from "../styles/LevelWordStyle";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import A1Data from "../assets/data/A1.json";
+import A2Data from "../assets/data/A2.json";
 import { useMemo } from "react";
 
-export default function LevelWordPage() {
+export default function LevelWordPage({ route }) {
+  const { param } = route.params;
   const [kelimeListesi, setKelimeListesi] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
 
   useEffect(() => {
-    const englishWords = A1Data.map((item) => ({ English: item.English }));
-    //console.log(englishWords);
-    setCheckedItems(Array(englishWords.length).fill(false));
-    setKelimeListesi(englishWords);
-  }, []);
+    var englishWords;
+    console.log(param);
+    if (param == "A1") {
+      englishWords = A1Data.map((item) => ({ English: item.English }));
+    } else if (param == "A2") {
+      englishWords = A2Data.map((item) => ({ English: item.English }));
+    }
 
-  const toggleCheckbox = useCallback((index) => {
-    setCheckedItems((prev) => {
-      const newState = [...prev];
-      newState[index] = !newState[index];
-      return newState;
-    });
-  }, []);
+    //console.log(englishWords);
+    if (englishWords) {
+      setCheckedItems(Array(englishWords.length).fill(false));
+      setKelimeListesi(englishWords);
+    }
+  }, [param]);
+
+  const toggleCheckbox = useCallback(
+    (index) => {
+      setCheckedItems((prev) => {
+        const newState = [...prev];
+        newState[index] = !newState[index];
+        // console.log(checkedItems);
+        return newState;
+      });
+    },
+    [checkedItems]
+  );
+
+  const textItem = useCallback(
+    ({ item }) => <Text style={levelWordStyle.listText}>{item.English}</Text>,
+    []
+  );
+  const checkboxItem = useCallback(
+    ({ index }) => (
+      <Checkbox
+        value={checkedItems[index]}
+        onValueChange={() => toggleCheckbox(index)}
+        color={checkedItems[index] ? "black" : undefined}
+      />
+    ),
+    [checkedItems]
+  );
 
   const renderItem = useCallback(
     ({ item, index }) => (
@@ -47,18 +76,43 @@ export default function LevelWordPage() {
         onPress={() => toggleCheckbox(index)}
         style={levelWordStyle.listView}
       >
-        <Text style={levelWordStyle.listText}>{item.English}</Text>
+        {textItem({ item })}
         <View style={levelWordStyle.editnDeleteButton}>
-          <Checkbox
-            value={checkedItems[index]}
-            onValueChange={() => toggleCheckbox(index)}
-            color={checkedItems[index] ? "black" : undefined}
-          />
+          {checkboxItem({ index })}
         </View>
       </TouchableOpacity>
     ),
     [checkedItems]
   );
+
+  const addMyDictionary = useCallback(
+    () => (
+      <TouchableOpacity>
+        <Image
+          source={require("../assets/levelWordAdd.png")}
+          resizeMode="contain"
+        ></Image>
+      </TouchableOpacity>
+    ),
+    []
+  );
+
+  const learnButton = useCallback(
+    () => (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("Learn");
+        }}
+      >
+        <Image
+          source={require("../assets/levelWordLearn.png")}
+          resizeMode="contain"
+        ></Image>
+      </TouchableOpacity>
+    ),
+    []
+  );
+
   const memoizedFlatList = useMemo(
     () => (
       <FlatList
@@ -101,28 +155,13 @@ export default function LevelWordPage() {
           resizeMode="contain"
           style={levelWordStyle.addButtonIcon}
         >
-          <Text style={levelWordStyle.levelWordUpText}>A1 Level Word</Text>
+          <Text style={levelWordStyle.levelWordUpText}>{param} Level Word</Text>
         </ImageBackground>
       </View>
       <View style={levelWordStyle.words}>{memoizedFlatList}</View>
       <View style={levelWordStyle.buttons}>
-        <TouchableOpacity>
-          <Image
-            source={require("../assets/levelWordAdd.png")}
-            resizeMode="contain"
-          ></Image>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Learn");
-          }}
-        >
-          <Image
-            source={require("../assets/levelWordLearn.png")}
-            resizeMode="contain"
-          ></Image>
-        </TouchableOpacity>
+        {addMyDictionary()}
+        {learnButton()}
       </View>
     </ImageBackground>
   );

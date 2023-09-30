@@ -12,6 +12,9 @@ import LearnPage from "./pages/LearnPage";
 import PopulerWordsPage from "./pages/PopulerWordsPage";
 import LevelWordPage from "./pages/LevelWordPage";
 import { StatusBar } from "react-native";
+import AddWordPage from "./pages/AddWordPage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -88,6 +91,20 @@ export default function App() {
           component={LevelWordPage}
           options={{
             headerTitle: "Level Words",
+            headerTitleStyle: {
+              fontFamily: "Kristen-Normal-ITC-Std-Regular",
+            },
+            headerStyle: {
+              // backgroundColor: 'red',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="AddWord"
+          onLayout={onLayoutRootView}
+          component={AddWordPage}
+          options={{
+            headerTitle: "Add Word",
             headerTitleStyle: {
               fontFamily: "Kristen-Normal-ITC-Std-Regular",
             },

@@ -9,6 +9,7 @@ import React from "react";
 import BackgroundStyle from "../styles/BackgroundStyle";
 import PopulerWordsStyle from "../styles/PopulerWordsStyle";
 import { useNavigation } from "@react-navigation/native";
+import A1 from "../assets/A1.png";
 
 export default function PopulerWordsPage() {
   const navigation = useNavigation();
@@ -28,19 +29,16 @@ export default function PopulerWordsPage() {
       <View style={PopulerWordsStyle.starOneView}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("LevelWord");
+            navigation.navigate("LevelWord", { param: "A1" });
           }}
         >
-          <Image
-            source={require("../assets/A1.png")}
-            resizeMode="contain"
-          ></Image>
+          <Image source={A1} resizeMode="contain"></Image>
         </TouchableOpacity>
       </View>
       <View style={PopulerWordsStyle.starTwoView}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("LevelWord");
+            navigation.navigate("LevelWord", { param: "A2" });
           }}
         >
           <Image

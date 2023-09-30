@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import BackgroundStyle from "../styles/BackgroundStyle";
 import { useCallback } from "react";
 import { useFonts } from "expo-font";
@@ -16,57 +16,84 @@ import { LinearGradient } from "expo-linear-gradient";
 import MyDictionaryStyle from "../styles/MyDictionaryStyle";
 import { useNavigation } from "@react-navigation/native";
 import AndroidSafeViewer from "../styles/AndroidSafeViewer";
-
-const dummyData = [
-  { id: "1", title: "Apple" },
-  { id: "2", title: "Banana" },
-  { id: "3", title: "Orange" },
-  { id: "4", title: "Grapes" },
-  { id: "5", title: "Strawberry" },
-  { id: "6", title: "Pineapple" },
-  { id: "7", title: "Watermelon" },
-  { id: "8", title: "Blueberry" },
-  { id: "9", title: "Cherry" },
-  { id: "10", title: "Mango" },
-  { id: "11", title: "Peach" },
-  { id: "12", title: "Pear" },
-  { id: "13", title: "Lemon" },
-  { id: "14", title: "Grapefruit" },
-  { id: "15", title: "Kiwi" },
-  { id: "16", title: "Raspberry" },
-  { id: "17", title: "Cranberry" },
-  { id: "18", title: "Blackberry" },
-  { id: "19", title: "Avocado" },
-  { id: "20", title: "Coconut" },
-];
+import * as FileSystem from "expo-file-system";
+import { useIsFocused } from "@react-navigation/native";
 
 export default function MyDictionaryPage() {
+  const [jsonData, setJsonData] = useState([]);
+  const JSON_FILE_PATH = `${FileSystem.documentDirectory}/data.json`;
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
 
-  const [fontsLoaded] = useFonts({
-    "Kristen-Normal-ITC-Std-Regular": require("../assets/fonts/Kristen-Normal-ITC-Std-Regular.ttf"),
-  });
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
+  const dummyData = [
+    {
+      id: "1",
+      front: "Hello",
+      back: "Merhaba",
+    },
+    {
+      id: "2",
+      front: "Goodbye",
+      back: "Güle güle",
+    },
+  ];
+
+  const createOrOpenJsonFile = async () => {
+    try {
+      const fileInfo = await FileSystem.getInfoAsync(JSON_FILE_PATH);
+
+      if (!fileInfo.exists) {
+        // JSON dosyası yoksa oluşturun ve boş bir diziyle başlatın
+        await FileSystem.writeAsStringAsync(JSON_FILE_PATH, "[]", {
+          encoding: FileSystem.EncodingType.UTF8,
+        });
+      }
+    } catch (error) {
+      console.error("JSON dosyası oluşturulurken hata oluştu:", error);
     }
-  }, [fontsLoaded]);
+  };
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  const readDataFromJsonFile = async () => {
+    try {
+      await createOrOpenJsonFile();
+
+      // JSON dosyasını okuyun
+      const currentData = await FileSystem.readAsStringAsync(JSON_FILE_PATH, {
+        encoding: FileSystem.EncodingType.UTF8,
+      });
+      const parsedData = JSON.parse(currentData);
+
+      // Okunan verileri setJsonData ile saklayın
+      setJsonData(parsedData);
+
+      // Konsola yazdırın
+      console.log("JSON Dosya İçeriği:", parsedData);
+    } catch (error) {
+      console.error("Veri okunurken hata oluştu:", error);
+    }
+  };
+  useEffect(() => {
+    if (isFocused) {
+      readDataFromJsonFile();
+    }
+  }, [isFocused]);
+
   return (
     <ImageBackground
       source={require("../assets/backgroundImage.png")}
       resizeMode="cover"
       style={BackgroundStyle.container}
-      onLayout={onLayoutRootView}
     >
       <View style={MyDictionaryStyle.addButtonView}>
         <Text style={MyDictionaryStyle.wordCount}>
-          Total Words: {dummyData.length}
+          Total Words: {jsonData.length}
         </Text>
-        <TouchableOpacity style={MyDictionaryStyle.addButton}>
+        <TouchableOpacity
+          style={MyDictionaryStyle.addButton}
+          onPress={() => {
+            navigation.navigate("AddWord");
+          }}
+        >
           <Image
             source={require("../assets/addIcon.png")}
             resizeMode="contain"
@@ -76,11 +103,12 @@ export default function MyDictionaryPage() {
       </View>
       <View style={MyDictionaryStyle.words}>
         <FlatList
-          data={dummyData}
+          data={jsonData}
           keyExtractor={(item) => item.id}
+          key={(item) => item.id}
           renderItem={({ item }) => (
             <View style={MyDictionaryStyle.listView}>
-              <Text style={MyDictionaryStyle.listText}>{item.title}</Text>
+              <Text style={MyDictionaryStyle.listText}>{item.front}</Text>
               <TouchableOpacity style={MyDictionaryStyle.editnDeleteButton}>
                 <Image
                   source={require("../assets/editIcon.png")}

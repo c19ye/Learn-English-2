@@ -12,6 +12,8 @@ import BackgroundStyle from "../styles/BackgroundStyle";
 import AddWordStyle from "../styles/AddWordStyle";
 import { Input } from "@rneui/themed";
 import * as FileSystem from "expo-file-system";
+import { useIsFocused } from "@react-navigation/native";
+
 
 export default function AddWordPage() {
   const [front, setFront] = useState("");
@@ -19,6 +21,8 @@ export default function AddWordPage() {
   const [jsonData, setJsonData] = useState([]);
   const [counter, setCounter] = useState(0);
   const [lastItem, setLastItem] = useState({}); //[jsonData.length - 1]);
+  const isFocused = useIsFocused();
+
 
   const JSON_FILE_PATH = `${FileSystem.documentDirectory}/data.json`;
   const createOrOpenJsonFile = async () => {
@@ -101,17 +105,29 @@ export default function AddWordPage() {
         back: back,
       };
       writeDataToJsonFile(newData);
-      Alert.alert("Succesfull", "Word Added Successfully");
+      Alert.alert("Word Added", "Word has been added successfully.", [
+        {
+          text: "OK",
+          onPress:() => {
+            setCounter(counter + 1)
+            readDataFromJsonFile();
+            setFront("");
+            setBack("");
+          }
+        },
+      ]);
       console.log("JSON Dosya İçeriği:", jsonData);
-      setFront("");
-      setBack("");
       console.log("Save input");
     }
     console.log("Front: " + front + " Back: " + back);
+   
+    
   };
   useEffect(() => {
+    if (isFocused) {
     readDataFromJsonFile();
-  }, []);
+  }
+  }, [isFocused,counter]);
   return (
     <ImageBackground
       source={require("../assets/backgroundImage.png")}

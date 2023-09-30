@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import BackgroundStyle from "../styles/BackgroundStyle";
@@ -24,19 +25,54 @@ export default function MyDictionaryPage() {
   const JSON_FILE_PATH = `${FileSystem.documentDirectory}/data.json`;
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const [counter, setCounter] = useState(0);
 
-  const dummyData = [
-    {
-      id: "1",
-      front: "Hello",
-      back: "Merhaba",
-    },
-    {
-      id: "2",
-      front: "Goodbye",
-      back: "Güle güle",
-    },
-  ];
+  // const deleteJSONFile = async (JSON_FILE_PATH) => {
+  //   try {
+  //     // Dosyayı sil
+  //     await FileSystem.deleteAsync(JSON_FILE_PATH, { idempotent: true });
+
+  //     Alert.alert("Dosya Silindi", "Dosya başarıyla silindi.");
+  //   } catch (error) {
+  //     console.error("Dosya silinirken hata oluştu:", error);
+  //     Alert.alert("Hata", "Dosya silinirken bir hata oluştu.");
+  //   }
+  // };
+
+  const deleteDataFromJSON = async (getId) => {
+    const dataToDelete = { id: getId }; // Change this to the data you want to delete
+
+    try {
+      // Read the existing JSON data from the file
+      const jsonContent = await FileSystem.readAsStringAsync(JSON_FILE_PATH);
+
+      // Parse the JSON data into an object
+      const jsonData = JSON.parse(jsonContent);
+
+      // Filter out the data you want to delete
+      const filteredData = jsonData.filter(
+        (item) => item.id !== dataToDelete.id
+      );
+
+      // Convert the filtered data back to JSON string
+      const updatedJSONContent = JSON.stringify(filteredData);
+
+      // Write the updated JSON data back to the file
+      await FileSystem.writeAsStringAsync(JSON_FILE_PATH, updatedJSONContent);
+
+      Alert.alert("Data Deleted", "Data has been deleted successfully.", [
+        {
+          text: "OK",
+          onPress:() => {
+            setCounter(counter + 1)
+          }
+        },
+      ]);
+    } catch (error) {
+      console.error("Error deleting data:", error);
+      Alert.alert("Error", "An error occurred while deleting data.");
+    }
+  };
 
   const createOrOpenJsonFile = async () => {
     try {
@@ -75,8 +111,9 @@ export default function MyDictionaryPage() {
   useEffect(() => {
     if (isFocused) {
       readDataFromJsonFile();
+      //deleteJSONFile(JSON_FILE_PATH);
     }
-  }, [isFocused]);
+  }, [isFocused,counter]);
 
   return (
     <ImageBackground
@@ -116,7 +153,10 @@ export default function MyDictionaryPage() {
                   style={MyDictionaryStyle.editnDeleteButtonIcon}
                 ></Image>
               </TouchableOpacity>
-              <TouchableOpacity style={MyDictionaryStyle.editnDeleteButton}>
+              <TouchableOpacity
+                style={MyDictionaryStyle.editnDeleteButton}
+                onPress={() => deleteDataFromJSON(item.id)}
+              >
                 <Image
                   source={require("../assets/deleteIcon.png")}
                   resizeMode="cover"

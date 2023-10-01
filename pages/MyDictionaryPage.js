@@ -178,7 +178,14 @@ export default function MyDictionaryPage() {
       <View style={MyDictionaryStyle.buttons}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Learn");
+            {
+              jsonData.length == 0
+                ? Alert.alert("Error","You have no words to repeat.")
+                : navigation.navigate("Learn", {
+                    param: jsonData,
+                    button: "repeatAll",
+                  });
+            }
           }}
         >
           <Image
@@ -189,7 +196,14 @@ export default function MyDictionaryPage() {
 
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Learn");
+            {
+              jsonData.length == 0
+                ? Alert.alert("Error","You have no words to learn.")
+                : navigation.navigate("Learn", {
+                    param: jsonData,
+                    button: "learn",
+                  });
+            }
           }}
         >
           <Image

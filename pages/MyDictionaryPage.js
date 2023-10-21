@@ -98,21 +98,47 @@ export default function MyDictionaryPage() {
         encoding: FileSystem.EncodingType.UTF8,
       });
       const parsedData = JSON.parse(currentData);
-
+      setJsonData([]);
+      console.log("gelenjson:",jsonData);
       // Okunan verileri setJsonData ile saklayın
-      setJsonData(parsedData);
+      
+        await parsedData.forEach(element => {
+          const currentDateTime = new Date();
+          const currentDate=currentDateTime.toISOString().split('T')[0];
+          const currentTime=currentDateTime.toTimeString().split(' ')[0];
+          var flag = false;
+          if(element.learn >= 2){
+            if(element.date <= currentDate ){
+              console.log("gelen",element," ",element.date," ",element.time)
+              setJsonData(prevData => [...prevData, element]);
+              flag = true;
 
+  
+            }
+          }
+          else{
+            if(element.time <= currentTime && flag == false){
+              console.log("gelen2",element," ",element.date," ",element.time)
+              setJsonData(prevData => [...prevData, element]);
+
+            }
+          }
+        });
+      
       // Konsola yazdırın
-      console.log("JSON Dosya İçeriği:", parsedData);
+      console.log("JSON Dosya İçeriği:", jsonData);
+
     } catch (error) {
       console.error("Veri okunurken hata oluştu:", error);
     }
   };
   useEffect(() => {
     if (isFocused) {
+      setJsonData([]);
       readDataFromJsonFile();
       //deleteJSONFile(JSON_FILE_PATH);
     }
+    
   }, [isFocused, counter]);
 
   return (

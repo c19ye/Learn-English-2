@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import BackgroundStyle from "../styles/BackgroundStyle";
 import LearnStyle from "../styles/LearnStyle";
+import * as FileSystem from "expo-file-system";
 import { useNavigation } from "@react-navigation/native";
 
 export default function LearnPage({ route }) {
@@ -21,6 +22,70 @@ export default function LearnPage({ route }) {
   const [last, setLast] = useState(false);
   const [last2, setLast2] = useState(false); //for repeatAll
   const navigation = useNavigation();
+  
+
+  const JSON_FILE_PATH = `${FileSystem.documentDirectory}/data.json`;
+  const createOrOpenJsonFile = async () => {
+    try {
+      const fileInfo = await FileSystem.getInfoAsync(JSON_FILE_PATH);
+
+      if (!fileInfo.exists) {
+        // JSON dosyası yoksa oluşturun ve boş bir diziyle başlatın
+        await FileSystem.writeAsStringAsync(JSON_FILE_PATH, "[]", {
+          encoding: FileSystem.EncodingType.UTF8,
+        });
+      }
+    } catch (error) {
+      console.error("JSON dosyası oluşturulurken hata oluştu:", error);
+    }
+  };
+
+  const editDataFromJsonFile = async (data) => {
+    try {
+      await createOrOpenJsonFile();
+
+      // JSON dosyasını okuyun
+      const currentData = await FileSystem.readAsStringAsync(JSON_FILE_PATH, {
+        encoding: FileSystem.EncodingType.UTF8,
+      });
+      const parsedData = JSON.parse(currentData);
+
+      // Hedef öğeyi bulun
+      const targetItemIndex = parsedData.findIndex(
+        (item) => item.id === data.id
+      );
+
+      if (targetItemIndex === -1) {
+        console.error(`ID ${data.id} ile eşleşen bir öğe bulunamadı.`);
+        return; // Hedef öğe bulunamazsa işlemi durdurabilir veya hata işleyebilirsiniz.
+      }
+      const currentDateTime = new Date();
+      const currentDate=currentDateTime.toISOString().split('T')[0];
+      const currentTime=currentDateTime.toTimeString().split(' ')[0];
+      if(data.learn >= 0){
+        const currentDate=currentDateTime.toISOString().split('T')[0];
+        currentDateTime.setMinutes(currentDateTime.getMinutes() + 1);
+        const currentTime=currentDateTime.toTimeString().split(' ')[0];
+        console.log("asd",currentDate,"sad",currentTime)
+        data.date = currentDate;
+        data.time = currentTime;
+        data.learn = 1;
+      }
+      parsedData[targetItemIndex] = data;
+
+      parsedData.find((item) => item.id === data.id);
+      // Güncelleme
+      await FileSystem.writeAsStringAsync(
+        JSON_FILE_PATH,
+        JSON.stringify(parsedData),
+        { encoding: FileSystem.EncodingType.UTF8 }
+      );
+
+      // Güncellenmiş verileri JSON dosyasına yazın
+    } catch (error) {
+      console.error("Veri yazılırken hata oluştu:", error);
+    }
+  };
 
   const toggleButtons = () => {
     if (button != "repeatAll") {
@@ -40,12 +105,17 @@ export default function LearnPage({ route }) {
       }
     }
   };
-  const toggleButtonsReverse = () => {
-    setShowAnswerButtonVisible(true);
+   function toogleButtonsReverse(taken){
+        setShowAnswerButtonVisible(true);
     setIKnowButtonVisible(false);
+    if(taken == "know"){      
+      editDataFromJsonFile(param[counter]);
+    }
     if(counter+1 == param.length){
       navigation.navigate("MyDictionary");
     }
+    
+    
     setCounter(counter + 1);
   };
 
@@ -144,7 +214,7 @@ export default function LearnPage({ route }) {
         <View style={LearnStyle.buttonsView2}>
           <TouchableOpacity
             style={LearnStyle.showAnswerButton}
-            onPress={toggleButtonsReverse}
+            onPress={() => toogleButtonsReverse("know")}
           >
             <ImageBackground
               source={require("../assets/iKnowButton.png")}
@@ -154,7 +224,7 @@ export default function LearnPage({ route }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={LearnStyle.showAnswerButton}
-            onPress={toggleButtonsReverse}
+            onPress={() => toogleButtonsReverse("dontknow")}
           >
             <ImageBackground
               source={require("../assets/iDontKnowButton.png")}

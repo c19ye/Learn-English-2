@@ -135,6 +135,11 @@ export default function AddWordPage({ route }) {
       return;
     } else {
       var getId;
+      var learn = 0;
+      const currentDateTime = new Date();
+      const currentDate=currentDateTime.toISOString().split('T')[0];
+      const currentTime=currentDateTime.toTimeString().split(' ')[0];
+
       if (jsonData.length == 0) {
         getId = 1;
       } else {
@@ -144,6 +149,9 @@ export default function AddWordPage({ route }) {
         id: getId,
         front: front,
         back: back,
+        learn: learn,
+        date:currentDate,
+        time:currentTime,
       };
       writeDataToJsonFile(newData);
       Alert.alert("Word Added", "Word has been added successfully.", [
